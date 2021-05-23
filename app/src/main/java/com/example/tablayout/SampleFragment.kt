@@ -10,13 +10,12 @@ import kotlinx.android.synthetic.main.fragment_sample.view.*
 
 
 /**
- * A simple [Fragment] subclass.
- * Use the [SampleFragment.newInstance] factory method to
- * create an instance of this fragment.
+ * SampleFragment
+ * Class: SampleFragment
+ * Created by 한경동 (Joel) on 2021/05/23.
+ * Description: TabLayout, ViewPager 를 통해 화면 이동할 경우 붙여줄 Fragment
  */
-class SampleFragment : Fragment() {
-
-    var name = ""
+class SampleFragment(var name : String) : Fragment() {
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         val view = inflater.inflate(R.layout.fragment_sample, container, false)

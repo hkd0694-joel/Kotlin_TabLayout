@@ -8,6 +8,12 @@ import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.custom_tab_layout.view.*
 import kotlinx.android.synthetic.main.fragment_sample.view.*
 
+/**
+ * MainActivity
+ * Class: MainActivity
+ * Created by 한경동 (Joel) on 2021/05/23.
+ * Description: TabLayout, ViewPager 를 보여줄 Main 화면
+ */
 class MainActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -23,24 +29,18 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun initViewPager() {
-        val todayFragment = SampleFragment()
-        todayFragment.name = "투데이"
-        val shinhanFragment = SampleFragment()
-        shinhanFragment.name = "신한Pay"
-        val assetsFragment = SampleFragment()
-        assetsFragment.name = "자산"
 
         val adapter = PagerAdapter(supportFragmentManager)
-        adapter.addItems(todayFragment)
-        adapter.addItems(shinhanFragment)
-        adapter.addItems(assetsFragment)
+        adapter.addItems(SampleFragment(getString(R.string.fragment_title_today)))
+        adapter.addItems(SampleFragment(getString(R.string.fragment_title_shinhan)))
+        adapter.addItems(SampleFragment(getString(R.string.fragment_title_assets)))
 
         vp_main.adapter = adapter
         tl_main.setupWithViewPager(vp_main)
 
-        tl_main.getTabAt(0)?.customView = createView("투데이")
-        tl_main.getTabAt(1)?.customView = createView("신한Pay")
-        tl_main.getTabAt(2)?.customView = createView("자산")
+        tl_main.getTabAt(0)?.customView = createView(getString(R.string.fragment_title_today))
+        tl_main.getTabAt(1)?.customView = createView(getString(R.string.fragment_title_shinhan))
+        tl_main.getTabAt(2)?.customView = createView(getString(R.string.fragment_title_assets))
 
     }
 }
