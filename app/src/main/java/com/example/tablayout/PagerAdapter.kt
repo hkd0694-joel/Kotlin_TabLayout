@@ -12,6 +12,7 @@ import java.util.*
  * Description:
  */
 class PagerAdapter(fm: FragmentManager): FragmentStatePagerAdapter(fm, BEHAVIOR_RESUME_ONLY_CURRENT_FRAGMENT) {
+    // BEHAVIOR_RESUME_ONLY_CURRENT_FRAGMENT 써줘야함!!
 
     private var fragmentList: MutableList<SampleFragment> = ArrayList()
 
