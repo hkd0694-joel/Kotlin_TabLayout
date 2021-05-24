@@ -36,7 +36,7 @@ class MainActivity : AppCompatActivity() {
         adapter.addItems(SampleFragment(getString(R.string.fragment_title_assets)))
 
         vp_main.adapter = adapter
-        vp_main.offscreenPageLimit = adapter.count
+        // vp_main.offscreenPageLimit = adapter.count
         tl_main.setupWithViewPager(vp_main)
 
         tl_main.getTabAt(0)?.customView = createView(getString(R.string.fragment_title_today))

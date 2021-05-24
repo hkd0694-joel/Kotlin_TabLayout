@@ -29,8 +29,8 @@ class SampleFragment(var name : String) : Fragment() {
         webview.webViewClient = WebViewClient()
         webview.webChromeClient = WebChromeClient()
         when(name) {
-            "투데이" -> webview.loadUrl("https://www.naver.com")
-            "신한Pay" -> webview.loadUrl("https://www.google.com")
+            "투데이" -> webview.loadUrl("https://m.blog.naver.com/PostView.naver?blogId=qbxlvnf11&logNo=221641795446&proxyReferer=https:%2F%2Fwww.google.com%2F")
+            "신한Pay" -> webview.loadUrl("https://qastack.tistory.com/entry/Webview%EB%8A%94-%EB%AC%B4%ED%95%9C-%EC%8A%A4%ED%81%AC%EB%A1%A4-%EA%B0%80%EB%8A%A5-%EA%B3%B5%EB%B0%B1%EC%9D%84-%EC%9C%A0%EB%B0%9C%ED%95%A9%EB%8B%88%EB%8B%A4")
             "자산" -> webview.loadUrl("https://www.daum.net") }
         super.onViewCreated(view, savedInstanceState)
     }
