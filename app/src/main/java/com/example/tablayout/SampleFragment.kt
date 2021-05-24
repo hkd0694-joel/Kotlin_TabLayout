@@ -5,6 +5,8 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.webkit.WebChromeClient
+import android.webkit.WebViewClient
 import kotlinx.android.synthetic.main.fragment_sample.*
 import kotlinx.android.synthetic.main.fragment_sample.view.*
 
@@ -19,8 +21,18 @@ class SampleFragment(var name : String) : Fragment() {
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         val view = inflater.inflate(R.layout.fragment_sample, container, false)
-        view.tv_name.text = name
         return view
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        webview.settings.javaScriptEnabled = true
+        webview.webViewClient = WebViewClient()
+        webview.webChromeClient = WebChromeClient()
+        when(name) {
+            "투데이" -> webview.loadUrl("https://www.naver.com")
+            "신한Pay" -> webview.loadUrl("https://www.google.com")
+            "자산" -> webview.loadUrl("https://www.daum.net") }
+        super.onViewCreated(view, savedInstanceState)
     }
 
 }
