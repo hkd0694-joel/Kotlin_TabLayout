@@ -13,9 +13,9 @@ import com.example.tablayout.R
  * Created by 한경동 (Joel) on 2021/05/24.
  * Description:
  */
-class CustomToolbar: FrameLayout, View.OnClickListener {
+class CustomToolbar : FrameLayout, View.OnClickListener {
 
-    constructor(context: Context): super(context) {
+    constructor(context: Context) : super(context) {
         init(context, null)
     }
 

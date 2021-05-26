@@ -1,12 +1,11 @@
 package com.example.tablayout
 
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
+import androidx.appcompat.app.AppCompatActivity
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.custom_tab_layout.view.*
-import kotlinx.android.synthetic.main.fragment_sample.view.*
 
 /**
  * MainActivity
@@ -36,7 +35,7 @@ class MainActivity : AppCompatActivity() {
         adapter.addItems(SampleFragment(getString(R.string.fragment_title_assets)))
 
         vp_main.adapter = adapter
-        // vp_main.offscreenPageLimit = adapter.count
+        vp_main.offscreenPageLimit = adapter.count
         tl_main.setupWithViewPager(vp_main)
 
         tl_main.getTabAt(0)?.customView = createView(getString(R.string.fragment_title_today))

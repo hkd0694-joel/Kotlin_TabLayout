@@ -11,7 +11,8 @@ import java.util.*
  * Created by 한경동 (Joel) on 2021/05/23.
  * Description: ViewPager Adapter
  */
-class PagerAdapter(fm: FragmentManager): FragmentStatePagerAdapter(fm, BEHAVIOR_RESUME_ONLY_CURRENT_FRAGMENT) {
+class PagerAdapter(fm: FragmentManager) :
+    FragmentStatePagerAdapter(fm, BEHAVIOR_RESUME_ONLY_CURRENT_FRAGMENT) {
     // BEHAVIOR_RESUME_ONLY_CURRENT_FRAGMENT 써줘야함!!
 
     private var fragmentList: MutableList<SampleFragment> = ArrayList()
