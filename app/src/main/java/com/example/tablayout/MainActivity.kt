@@ -16,6 +16,8 @@ import kotlinx.android.synthetic.main.custom_tab_layout.view.*
  */
 class MainActivity : AppCompatActivity() {
 
+    var fragmentIndex = 0
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
@@ -34,7 +36,6 @@ class MainActivity : AppCompatActivity() {
         adapter.addItems(SampleFragment(getString(R.string.fragment_title_today)))
         adapter.addItems(SampleFragment(getString(R.string.fragment_title_shinhan)))
         adapter.addItems(SampleFragment(getString(R.string.fragment_title_assets)))
-
         vp_main.adapter = adapter
         vp_main.offscreenPageLimit = adapter.count
         tl_main.setupWithViewPager(vp_main)
@@ -43,5 +44,36 @@ class MainActivity : AppCompatActivity() {
         tl_main.getTabAt(1)?.customView = createView(getString(R.string.fragment_title_shinhan))
         tl_main.getTabAt(2)?.customView = createView(getString(R.string.fragment_title_assets))
 
+        tl_main.addOnTabSelectedListener(object: TabLayout.OnTabSelectedListener {
+            override fun onTabSelected(tab: TabLayout.Tab?) {
+                fragmentIndex = tab?.position!!
+                vp_main.currentItem = tab.position
+            }
+
+            override fun onTabUnselected(tab: TabLayout.Tab?) {
+
+            }
+
+            override fun onTabReselected(tab: TabLayout.Tab?) {
+
+            }
+
+        })
+    }
+
+    override fun onBackPressed() {
+        when(fragmentIndex) {
+            0 -> {
+                super.onBackPressed()
+            }
+            1 -> {
+                fragmentIndex = 0
+                vp_main.currentItem = fragmentIndex
+            }
+            2 -> {
+                fragmentIndex = 1
+                vp_main.currentItem = fragmentIndex
+            }
+        }
     }
 }
