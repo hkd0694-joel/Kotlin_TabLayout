@@ -19,6 +19,8 @@ import kotlinx.android.synthetic.main.activity_main.*
 class MainActivity : AppCompatActivity() {
 
     var fragmentIndex: Int?= null
+    var isJoin = false
+    var isTabChange = true
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -32,21 +34,27 @@ class MainActivity : AppCompatActivity() {
         val adapter = PagerAdapter(supportFragmentManager)
         adapter.addItems(SampleFragment(getString(R.string.fragment_title_today)), getString(R.string.fragment_title_today))
         adapter.addItems(SampleFragment(getString(R.string.fragment_title_info)),getString(R.string.fragment_title_info))
-        // adapter.addItems(SampleFragment(getString(R.string.fragment_title_shinhan)),getString(R.string.fragment_title_shinhan))
-        // adapter.addItems(SampleFragment(getString(R.string.fragment_title_assets)),getString(R.string.fragment_title_assets))
-        // adapter.addItems(SampleFragment(getString(R.string.fragment_title_discover)),getString(R.string.fragment_title_discover))
+        if(isJoin) {
+            adapter.addItems(SampleFragment(getString(R.string.fragment_title_shinhan)),getString(R.string.fragment_title_shinhan))
+            adapter.addItems(SampleFragment(getString(R.string.fragment_title_assets)),getString(R.string.fragment_title_assets))
+            adapter.addItems(SampleFragment(getString(R.string.fragment_title_discover)),getString(R.string.fragment_title_discover))
+        }
 
         vp_main.adapter = adapter
         vp_main.offscreenPageLimit = adapter.count
-        // tl_main.setupWithViewPager(vp_main)
 
-        var tabLay = tl_main.getChildAt(0) as LinearLayout
-        var layout = tabLay.getChildAt(0) as LinearLayout
-        var tvTab = layout.getChildAt(1) as TextView
-        layout.setBackgroundResource(R.drawable.tab_btn_shpae)
-        tvTab.setTextColor(Color.parseColor("#ffffff"))
+        if(isJoin) {
+            tl_main.setupWithViewPager(vp_main)
+        } else {
+            val tabLay = tl_main.getChildAt(0) as LinearLayout
+            val layout = tabLay.getChildAt(0) as LinearLayout
+            val tvTab = layout.getChildAt(1) as TextView
+            layout.setBackgroundResource(R.drawable.tab_btn_shpae)
+            tvTab.setTextColor(Color.parseColor("#ffffff"))
+        }
         tl_main.addOnTabSelectedListener(object: TabLayout.OnTabSelectedListener {
             override fun onTabSelected(tab: TabLayout.Tab?) {
+                Log.d("onPage", "${tab?.position!!}")
                 fragmentIndex = tab?.position
                 vp_main.currentItem = tab?.position!!
             }
@@ -66,12 +74,29 @@ class MainActivity : AppCompatActivity() {
             }
 
             override fun onPageSelected(position: Int) {
-                Log.d("onPageSelected", "$position")
+                if(!isJoin) {
+                    isTabChange = position == 0
+                }
             }
 
             override fun onPageScrollStateChanged(state: Int) {
                 if(ViewPager.SCROLL_STATE_IDLE == state) {
-                    Log.d("onPageState", "$state")
+                    val tabLay = tl_main.getChildAt(0) as LinearLayout
+                    val tParentLayout = tabLay.getChildAt(0) as LinearLayout        // 투데이 TextView 를 감싸는 부모 LinearLayout
+                    val tChildTextView = tParentLayout.getChildAt(1) as TextView    // 투데이 Textview
+                    val iParentLayout = tabLay.getChildAt(4) as LinearLayout        // 안내 TextView 를 감싸는 부모 LinearLayout
+                    val iChildTextview = iParentLayout.getChildAt(1) as TextView    // 안내 Textview
+                    if(isTabChange) {
+                        tParentLayout.setBackgroundResource(R.drawable.tab_btn_shpae)
+                        tChildTextView.setTextColor(Color.parseColor("#ffffff"))
+                        iParentLayout.setBackgroundResource(R.drawable.tab_default_btn_shape)
+                        iChildTextview.setTextColor(Color.parseColor("#000000"))
+                    } else {
+                        tParentLayout.setBackgroundResource(R.drawable.tab_default_btn_shape)
+                        tChildTextView.setTextColor(Color.parseColor("#000000"))
+                        iParentLayout.setBackgroundResource(R.drawable.tab_btn_shpae)
+                        iChildTextview.setTextColor(Color.parseColor("#ffffff"))
+                    }
                 }
             }
         })
