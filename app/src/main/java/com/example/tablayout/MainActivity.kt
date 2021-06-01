@@ -51,12 +51,28 @@ class MainActivity : AppCompatActivity() {
             val tvTab = layout.getChildAt(1) as TextView
             layout.setBackgroundResource(R.drawable.tab_btn_shpae)
             tvTab.setTextColor(Color.parseColor("#ffffff"))
+            for (i in 1 until 4 ) {
+                tabLay.getChildAt(i).isClickable = false
+                tabLay.getChildAt(i).isSelected = false
+                tabLay.getChildAt(i).isEnabled = false
+            }
         }
         tl_main.addOnTabSelectedListener(object: TabLayout.OnTabSelectedListener {
             override fun onTabSelected(tab: TabLayout.Tab?) {
-                Log.d("onPage", "${tab?.position!!}")
-                fragmentIndex = tab?.position
-                vp_main.currentItem = tab?.position!!
+                if(!isJoin) {
+                    if(tab?.position == 0) {
+                        fragmentIndex = tab.position
+                        vp_main.currentItem = tab.position
+                        isTabChange = true
+                    } else {
+                        fragmentIndex = 1
+                        vp_main.currentItem = 1
+                        isTabChange = false
+                    }
+                } else {
+                    fragmentIndex = tab.position
+                    vp_main.currentItem = tab.position
+                }
             }
 
             override fun onTabUnselected(tab: TabLayout.Tab?) {
