@@ -34,41 +34,40 @@
                 android:id="@+id/tl_main"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                app:tabGravity="center"
-                app:tabTextColor="#000000"
                 android:background="#ffffff"
-                app:tabSelectedTextColor="#000000"
-                app:tabRippleColor="@null"
-                app:tabIndicatorColor="#000000"
-                app:tabIndicatorHeight="3dp"
                 android:padding="5dp"
-                app:tabMode="scrollable" >
+                app:tabIndicatorColor="@null"
+                app:tabIndicatorHeight="3dp"
+                app:tabMode="fixed"
+                app:tabRippleColor="@null"
+                app:tabSelectedTextColor="@null"
+                app:tabTextColor="#000000">
 
                 <com.google.android.material.tabs.TabItem
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="투데이"
-                    />
+                    android:text="투데이" />
+
                 <com.google.android.material.tabs.TabItem
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="신한Pay"
-                    />
+                    android:text="신한Pay" />
+
                 <com.google.android.material.tabs.TabItem
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="자산"
-                    />
+                    android:text="자산" />
+
                 <com.google.android.material.tabs.TabItem
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="디스커버"
-                    />
+                    android:text="디스커버" />
+
                 <com.google.android.material.tabs.TabItem
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="안내"
-                    />
+                    android:text="안내" />
+
             </com.google.android.material.tabs.TabLayout>
 
         </com.google.android.material.appbar.AppBarLayout>
