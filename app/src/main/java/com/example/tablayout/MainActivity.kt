@@ -59,59 +59,63 @@ class MainActivity : AppCompatActivity() {
         }
         tl_main.addOnTabSelectedListener(object: TabLayout.OnTabSelectedListener {
             override fun onTabSelected(tab: TabLayout.Tab?) {
+                Log.d("onPageTabSelected", "${tab?.position}asd")
                 if(!isJoin) {
+                    Log.d("onPageTabSelect", "${tab?.position} : $fragmentIndex : $isTabChange")
+                    fragmentIndex = tab?.position
                     if(tab?.position == 0) {
-                        fragmentIndex = tab.position
                         vp_main.currentItem = tab.position
                         isTabChange = true
-                    } else {
-                        fragmentIndex = 1
+                    } else if(tab?.position == 4){
                         vp_main.currentItem = 1
                         isTabChange = false
                     }
                 } else {
-                    fragmentIndex = tab.position
-                    vp_main.currentItem = tab.position
+                    fragmentIndex = tab?.position
+                    vp_main.currentItem = tab?.position!!
                 }
             }
 
             override fun onTabUnselected(tab: TabLayout.Tab?) {
-
+                Log.d("onPageUnselected", "${tab?.position}")
             }
 
             override fun onTabReselected(tab: TabLayout.Tab?) {
-
+                Log.d("onPageReselected", "${tab?.position}")
             }
 
         })
 
         vp_main.addOnPageChangeListener(object : ViewPager.OnPageChangeListener {
-            override fun onPageScrolled(position: Int, positionOffset: Float, positionOffsetPixels: Int) {
-            }
-
+            override fun onPageScrolled(position: Int, positionOffset: Float, positionOffsetPixels: Int) {}
             override fun onPageSelected(position: Int) {
                 if(!isJoin) {
                     isTabChange = position == 0
+                    Log.d("onPageState", "$position : $isTabChange")
                 }
             }
-
             override fun onPageScrollStateChanged(state: Int) {
                 if(ViewPager.SCROLL_STATE_IDLE == state) {
-                    val tabLay = tl_main.getChildAt(0) as LinearLayout
-                    val tParentLayout = tabLay.getChildAt(0) as LinearLayout        // 투데이 TextView 를 감싸는 부모 LinearLayout
-                    val tChildTextView = tParentLayout.getChildAt(1) as TextView    // 투데이 Textview
-                    val iParentLayout = tabLay.getChildAt(4) as LinearLayout        // 안내 TextView 를 감싸는 부모 LinearLayout
-                    val iChildTextview = iParentLayout.getChildAt(1) as TextView    // 안내 Textview
-                    if(isTabChange) {
-                        tParentLayout.setBackgroundResource(R.drawable.tab_btn_shpae)
-                        tChildTextView.setTextColor(Color.parseColor("#ffffff"))
-                        iParentLayout.setBackgroundResource(R.drawable.tab_default_btn_shape)
-                        iChildTextview.setTextColor(Color.parseColor("#000000"))
-                    } else {
-                        tParentLayout.setBackgroundResource(R.drawable.tab_default_btn_shape)
-                        tChildTextView.setTextColor(Color.parseColor("#000000"))
-                        iParentLayout.setBackgroundResource(R.drawable.tab_btn_shpae)
-                        iChildTextview.setTextColor(Color.parseColor("#ffffff"))
+                    Log.d("onPageState", "$state")
+                    if(!isJoin) {
+                        val tabLay = tl_main.getChildAt(0) as LinearLayout              // TabLayout 자식 LinearLayout
+                        val tParentLayout = tabLay.getChildAt(0) as LinearLayout        // 투데이 TextView 를 감싸는 부모 LinearLayout
+                        val tChildTextView = tParentLayout.getChildAt(1) as TextView    // 투데이 Textview
+                        val iParentLayout = tabLay.getChildAt(4) as LinearLayout        // 안내 TextView 를 감싸는 부모 LinearLayout
+                        val iChildTextview = iParentLayout.getChildAt(1) as TextView    // 안내 Textview
+                        fragmentIndex = if(isTabChange) {
+                            tParentLayout.setBackgroundResource(R.drawable.tab_btn_shpae)
+                            tChildTextView.setTextColor(Color.parseColor("#ffffff"))
+                            iParentLayout.setBackgroundResource(R.drawable.tab_default_btn_shape)
+                            iChildTextview.setTextColor(Color.parseColor("#000000"))
+                            0
+                        } else {
+                            tParentLayout.setBackgroundResource(R.drawable.tab_default_btn_shape)
+                            tChildTextView.setTextColor(Color.parseColor("#000000"))
+                            iParentLayout.setBackgroundResource(R.drawable.tab_btn_shpae)
+                            iChildTextview.setTextColor(Color.parseColor("#ffffff"))
+                            4
+                        }
                     }
                 }
             }
@@ -121,9 +125,29 @@ class MainActivity : AppCompatActivity() {
 
     override fun onBackPressed() {
         when(fragmentIndex) {
-
+            0 -> {
+                super.onBackPressed()
+            }
+            1 -> {
+                fragmentIndex = 0
+                vp_main.currentItem = fragmentIndex as Int
+            }
+            2 -> {
+                fragmentIndex = 1
+                vp_main.currentItem = fragmentIndex as Int
+            }
+            3 -> {
+                fragmentIndex = 2
+                vp_main.currentItem = fragmentIndex as Int
+            }
+            4 -> {
+                if(!isJoin) {
+                    fragmentIndex = 0
+                    isTabChange = true
+                    tl_main.getTabAt(0)?.select()
+                } else fragmentIndex = 3
+                vp_main.currentItem = fragmentIndex as Int
+            }
         }
-        super.onBackPressed()
     }
-
 }
