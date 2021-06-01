@@ -16,11 +16,19 @@ class PagerAdapter(fm: FragmentManager) :
     // BEHAVIOR_RESUME_ONLY_CURRENT_FRAGMENT 써줘야함!!
 
     private var fragmentList: MutableList<SampleFragment> = ArrayList()
+    private var fragmentTitleList: MutableList<String> = ArrayList()
 
     override fun getCount(): Int = fragmentList.size
 
     override fun getItem(position: Int): Fragment = fragmentList[position]
 
-    fun addItems(fragment: SampleFragment) = fragmentList.add(fragment)
+    override fun getPageTitle(position: Int): CharSequence? {
+        return fragmentTitleList[position]
+    }
+
+    fun addItems(fragment: SampleFragment, title: String) {
+        fragmentList.add(fragment)
+        fragmentTitleList.add(title)
+    }
 
 }

@@ -4,5 +4,7 @@
     <string name="fragment_title_today">투데이</string>
     <string name="fragment_title_shinhan">신한Pay</string>
     <string name="fragment_title_assets">자산</string>
-    
+    <string name="fragment_title_discover">디스커버</string>
+    <string name="fragment_title_info">안내</string>
+
 </resources>
