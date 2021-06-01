@@ -1,7 +1,6 @@
 # Kotlin_TabLayout
 TabLayout, WebView, ViewPager 를 이용한 화면 이동 ( Kotlin )
 
-
 ## PagerAdapter.kt
 
 ~~~kotlin
@@ -45,35 +44,137 @@ class SampleFragment(var name : String) : Fragment() {
 
 class MainActivity : AppCompatActivity() {
 
+    var fragmentIndex: Int?= null
+    var isJoin = false
+    var isTabChange = true
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
+        fragmentIndex = 0
         initViewPager()
     }
 
-    private fun createView(name: String): View {
-        val view = LayoutInflater.from(this).inflate(R.layout.custom_tab_layout, null)
-        view.tv_title.text = name
-        return view
-    }
-
-    /**
-     * PagerAdapter.kt 초기화 및 Item 추가 Method 
-     */
     private fun initViewPager() {
 
         val adapter = PagerAdapter(supportFragmentManager)
-        adapter.addItems(SampleFragment(getString(R.string.fragment_title_today)))
-        adapter.addItems(SampleFragment(getString(R.string.fragment_title_shinhan)))
-        adapter.addItems(SampleFragment(getString(R.string.fragment_title_assets)))
+        adapter.addItems(SampleFragment(getString(R.string.fragment_title_today)), getString(R.string.fragment_title_today))
+        adapter.addItems(SampleFragment(getString(R.string.fragment_title_info)),getString(R.string.fragment_title_info))
+        if(isJoin) {
+            adapter.addItems(SampleFragment(getString(R.string.fragment_title_shinhan)),getString(R.string.fragment_title_shinhan))
+            adapter.addItems(SampleFragment(getString(R.string.fragment_title_assets)),getString(R.string.fragment_title_assets))
+            adapter.addItems(SampleFragment(getString(R.string.fragment_title_discover)),getString(R.string.fragment_title_discover))
+        }
 
         vp_main.adapter = adapter
-        tl_main.setupWithViewPager(vp_main)
+        vp_main.offscreenPageLimit = adapter.count
 
-        tl_main.getTabAt(0)?.customView = createView(getString(R.string.fragment_title_today))
-        tl_main.getTabAt(1)?.customView = createView(getString(R.string.fragment_title_shinhan))
-        tl_main.getTabAt(2)?.customView = createView(getString(R.string.fragment_title_assets))
+        if(isJoin) {
+            tl_main.setupWithViewPager(vp_main)
+        } else {
+            val tabLay = tl_main.getChildAt(0) as LinearLayout
+            val layout = tabLay.getChildAt(0) as LinearLayout
+            val tvTab = layout.getChildAt(1) as TextView
+            layout.setBackgroundResource(R.drawable.tab_btn_shpae)
+            tvTab.setTextColor(Color.parseColor("#ffffff"))
+            for (i in 1 until 4 ) {
+                tabLay.getChildAt(i).isClickable = false
+                tabLay.getChildAt(i).isSelected = false
+                tabLay.getChildAt(i).isEnabled = false
+            }
+        }
+        tl_main.addOnTabSelectedListener(object: TabLayout.OnTabSelectedListener {
+            override fun onTabSelected(tab: TabLayout.Tab?) {
+                Log.d("onPageTabSelected", "${tab?.position}asd")
+                if(!isJoin) {
+                    Log.d("onPageTabSelect", "${tab?.position} : $fragmentIndex : $isTabChange")
+                    fragmentIndex = tab?.position
+                    if(tab?.position == 0) {
+                        vp_main.currentItem = tab.position
+                        isTabChange = true
+                    } else if(tab?.position == 4){
+                        vp_main.currentItem = 1
+                        isTabChange = false
+                    }
+                } else {
+                    fragmentIndex = tab?.position
+                    vp_main.currentItem = tab?.position!!
+                }
+            }
 
+            override fun onTabUnselected(tab: TabLayout.Tab?) {
+                Log.d("onPageUnselected", "${tab?.position}")
+            }
+
+            override fun onTabReselected(tab: TabLayout.Tab?) {
+                Log.d("onPageReselected", "${tab?.position}")
+            }
+
+        })
+
+        vp_main.addOnPageChangeListener(object : ViewPager.OnPageChangeListener {
+            override fun onPageScrolled(position: Int, positionOffset: Float, positionOffsetPixels: Int) {}
+            override fun onPageSelected(position: Int) {
+                if(!isJoin) {
+                    isTabChange = position == 0
+                    Log.d("onPageState", "$position : $isTabChange")
+                }
+            }
+            override fun onPageScrollStateChanged(state: Int) {
+                if(ViewPager.SCROLL_STATE_IDLE == state) {
+                    Log.d("onPageState", "$state")
+                    if(!isJoin) {
+                        val tabLay = tl_main.getChildAt(0) as LinearLayout              // TabLayout 자식 LinearLayout
+                        val tParentLayout = tabLay.getChildAt(0) as LinearLayout        // 투데이 TextView 를 감싸는 부모 LinearLayout
+                        val tChildTextView = tParentLayout.getChildAt(1) as TextView    // 투데이 Textview
+                        val iParentLayout = tabLay.getChildAt(4) as LinearLayout        // 안내 TextView 를 감싸는 부모 LinearLayout
+                        val iChildTextview = iParentLayout.getChildAt(1) as TextView    // 안내 Textview
+                        fragmentIndex = if(isTabChange) {
+                            tParentLayout.setBackgroundResource(R.drawable.tab_btn_shpae)
+                            tChildTextView.setTextColor(Color.parseColor("#ffffff"))
+                            iParentLayout.setBackgroundResource(R.drawable.tab_default_btn_shape)
+                            iChildTextview.setTextColor(Color.parseColor("#000000"))
+                            0
+                        } else {
+                            tParentLayout.setBackgroundResource(R.drawable.tab_default_btn_shape)
+                            tChildTextView.setTextColor(Color.parseColor("#000000"))
+                            iParentLayout.setBackgroundResource(R.drawable.tab_btn_shpae)
+                            iChildTextview.setTextColor(Color.parseColor("#ffffff"))
+                            4
+                        }
+                    }
+                }
+            }
+        })
+
+    }
+
+    override fun onBackPressed() {
+        when(fragmentIndex) {
+            0 -> {
+                super.onBackPressed()
+            }
+            1 -> {
+                fragmentIndex = 0
+                vp_main.currentItem = fragmentIndex as Int
+            }
+            2 -> {
+                fragmentIndex = 1
+                vp_main.currentItem = fragmentIndex as Int
+            }
+            3 -> {
+                fragmentIndex = 2
+                vp_main.currentItem = fragmentIndex as Int
+            }
+            4 -> {
+                if(!isJoin) {
+                    fragmentIndex = 0
+                    isTabChange = true
+                    tl_main.getTabAt(0)?.select()
+                } else fragmentIndex = 3
+                vp_main.currentItem = fragmentIndex as Int
+            }
+        }
     }
 }
 
