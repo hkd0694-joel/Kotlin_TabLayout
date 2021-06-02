@@ -1,5 +1,6 @@
 package com.example.tablayout
 
+import android.annotation.SuppressLint
 import android.graphics.Color
 import android.os.Bundle
 import android.util.Log
@@ -21,17 +22,19 @@ import kotlinx.android.synthetic.main.tab_timeline.*
 class MainActivity : AppCompatActivity() {
 
     var fragmentIndex: Int?= null
-    var isJoin = false
-    var isTabChange = true
+    var isJoin = true
+    var isTabChange = false
 
+    @SuppressLint("ResourceAsColor")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
         fragmentIndex = 0
         initViewPager()
-        tl_main.setSelectedTabIndicatorColor(Color.parseColor("#ffffff"))
+        tl_main.setSelectedTabIndicatorColor(android.R.color.transparent)
         // 기본 색상, 선택시 쌕상
-        tl_main.setTabRippleColorResource(R.color.black)
+        tl_main.tabRippleColor = null
+        // tl_main.setTabRippleColorResource(R.color.ok)
         //tl_main.setTabTextColors(Color.parseColor("#555555"), Color.parseColor("#000000"));
     }
 
