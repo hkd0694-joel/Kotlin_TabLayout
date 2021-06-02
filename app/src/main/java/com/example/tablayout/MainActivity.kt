@@ -3,12 +3,14 @@ package com.example.tablayout
 import android.graphics.Color
 import android.os.Bundle
 import android.util.Log
+import android.view.View
 import android.widget.LinearLayout
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.viewpager.widget.ViewPager
 import com.google.android.material.tabs.TabLayout
 import kotlinx.android.synthetic.main.activity_main.*
+import kotlinx.android.synthetic.main.tab_timeline.*
 
 /**
  * MainActivity
@@ -27,6 +29,10 @@ class MainActivity : AppCompatActivity() {
         setContentView(R.layout.activity_main)
         fragmentIndex = 0
         initViewPager()
+        tl_main.setSelectedTabIndicatorColor(Color.parseColor("#ffffff"))
+        // 기본 색상, 선택시 쌕상
+        tl_main.setTabRippleColorResource(R.color.black)
+        //tl_main.setTabTextColors(Color.parseColor("#555555"), Color.parseColor("#000000"));
     }
 
     private fun initViewPager() {
@@ -120,7 +126,6 @@ class MainActivity : AppCompatActivity() {
                 }
             }
         })
-
     }
 
     override fun onBackPressed() {
