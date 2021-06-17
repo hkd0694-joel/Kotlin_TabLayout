@@ -18,10 +18,15 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
 
-            <com.example.tablayout.component.CustomToolbar
+            <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                app:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar" />
+                android:orientation="vertical"
+                >
+
+                <include layout="@layout/custom_common_toolbar"/>
+
+            </LinearLayout>
 
             <include layout="@layout/tab_timeline"/>
 
